@@ -5,24 +5,32 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Controle de Estoque - Depósito Inteligente</title>
   <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <div class="container">
-    <h1>Controle de Estoque - Depósito Inteligente</h1>
-
+  <header class="header">
+    <div class="container">
+      <h1>Controle de Estoque</h1>
+      <p>Gerencie seu depósito com eficiência e estilo</p>
+    </div>
+  </header>
+  <main class="container">
     <!-- Dashboard -->
-    <div class="card">
+    <section class="card dashboard">
       <h2>Dashboard</h2>
       <div class="dashboard-grid">
-        <div class="card">
+        <div class="card stat">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M3 3h18v18H3zM9 3v18M15 3v18"/></svg>
           <h3>Total de Produtos</h3>
           <p id="total-products">0</p>
         </div>
-        <div class="card">
+        <div class="card stat">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm0 18a8 8 0 110-16 8 8 0 010 16z"/></svg>
           <h3>Quantidade Total</h3>
           <p id="total-quantity">0</p>
         </div>
-        <div class="card">
+        <div class="card stat">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm-2 14l-4-4 1.4-1.4L10 13.2l6.6-6.6L18 8l-8 8z"/></svg>
           <h3>Valor Total</h3>
           <p id="total-value">R$ 0.00</p>
         </div>
@@ -30,55 +38,75 @@
       <div class="chart-container">
         <h3>Estoque por Categoria</h3>
         <div id="stock-chart" class="chart"></div>
+        <div id="chart-legend" class="chart-legend"></div>
       </div>
-    </div>
+    </section>
 
     <!-- Filtros e Busca -->
-    <div class="filters">
-      <input type="text" id="search-input" placeholder="Buscar por nome...">
-      <select id="category-filter">
-        <option value="">Todas Categorias</option>
-      </select>
-      <button onclick="openModal('add')">Adicionar Produto</button>
-      <button onclick="exportToCSV()">Exportar CSV</button>
-    </div>
+    <section class="filters">
+      <div class="filter-group">
+        <input type="text" id="search-input" placeholder="Buscar por nome...">
+        <select id="category-filter">
+          <option value="">Todas Categorias</option>
+        </select>
+      </div>
+      <div class="filter-actions">
+        <button onclick="clearFilters()">Limpar</button>
+        <button onclick="openModal('add')">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M12 5v14m-7-7h14"/></svg>
+          Adicionar
+        </button>
+        <button onclick="exportToCSV()">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4m14-7l-5 5m0 0l-5-5m5 5V3"/></svg>
+          Exportar CSV
+        </button>
+        <button onclick="resetData()">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M12 5V1L7 6l5 5V7a6 6 0 110 12 6 6 0 010-12h1z"/></svg>
+          Resetar
+        </button>
+      </div>
+    </section>
 
     <!-- Lista de Produtos -->
-    <div class="card">
+    <section class="card">
       <h2>Produtos em Estoque</h2>
       <table id="product-table">
         <thead>
           <tr>
-            <th>ID</th>
-            <th>Nome</th>
-            <th>Quantidade</th>
-            <th>Categoria</th>
-            <th>Preço Unitário</th>
+            <th onclick="sortTable('id')">ID <span class="sort-icon"></span></th>
+            <th onclickUber="sortTable('name')">Nome <span class="sort-icon"></span></th>
+            <th onclick="sortTable('quantity')">Quantidade <span class="sort-icon"></span></th>
+            <th onclick="sortTable('category')">Categoria <span class="sort-icon"></span></th>
+            <th onclick="sortTable('price')">Preço <span class="sort-icon"></span></th>
             <th>Ações</th>
           </tr>
         </thead>
         <tbody></tbody>
       </table>
-    </div>
+    </section>
 
     <!-- Modal -->
     <div id="modal" class="modal hidden">
       <div class="modal-content">
         <h2 id="modal-title">Adicionar Produto</h2>
         <div class="form-group">
+          <label for="product-name">Nome</label>
           <input type="text" id="product-name" placeholder="Nome do Produto">
           <p class="error hidden" id="error-name"></p>
         </div>
         <div class="form-group">
+          <label for="product-quantity">Quantidade</label>
           <input type="number" id="product-quantity" placeholder="Quantidade">
           <p class="error hidden" id="error-quantity"></p>
         </div>
         <div class="form-group">
+          <label for="product-category">Categoria</label>
           <input type="text" id="product-category" placeholder="Categoria">
           <p class="error hidden" id="error-category"></p>
         </div>
         <div class="form-group">
-          <input type="number" id="product-price" placeholder="Preço Unitário" step="0.01">
+          <label for="product-price">Preço Unitário</label>
+          <input type="number" id="product-price" placeholder="Preço" step="0.01">
           <p class="error hidden" id="error-price"></p>
         </div>
         <div class="modal-actions">
@@ -90,7 +118,7 @@
 
     <!-- Toast -->
     <div id="toast" class="toast hidden"></div>
-  </div>
+  </main>
   <script src="app.js"></script>
 </body>
 </html>
