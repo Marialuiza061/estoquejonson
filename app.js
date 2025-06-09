@@ -224,4 +224,14 @@ document.addEventListener('DOMContentLoaded', () => {
   updateUI();
   document.getElementById('search-input').addEventListener('input', updateUI);
   document.getElementById('category-filter').addEventListener('change', updateUI);
+  document.getElementById('modal').addEventListener('click', function(event) {
+    if (event.target === this) {
+      closeModal();
+    }
+  });
+  document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape') {
+      closeModal();
+    }
+  });
 });
